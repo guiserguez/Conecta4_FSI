@@ -111,6 +111,14 @@ def alphabeta_search(state, game, d=4, cutoff_test=None, eval_fn=None):
     #     print i
     #     print "------\n"
 
+    v_heuristica = []
+    for a, s in lista:
+        v_heuristica.append(min_value(s, -infinity, infinity, 0))
+    print("La heuristica es: ")
+    print v_heuristica
+
+
+
     action, state = argmax(lista,
                            lambda ((a, s)): min_value(s, -infinity, infinity, 0))
 
@@ -268,7 +276,7 @@ class ConnectFour(TicTacToe):
     def __init__(self, h=7, v=6, k=4):
         TicTacToe.__init__(self, h, v, k)
 
-    def legal_moves(self, state):
+    def legal_moves(self,state):
         "Legal moves are any square not yet taken."
 
         return [(x, y) for (x, y) in state.moves

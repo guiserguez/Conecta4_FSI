@@ -13,6 +13,10 @@ while True:
     print "Jugador a mover:", game.to_move(state)
     game.display(state)
 
+    heuristica = heuristicas.h1
+
+    # Maquina = X, jugador = una O
+
     if player == 'O':
         col_str = raw_input("Movimiento: ")
         coor = int(str(col_str).strip())
@@ -29,7 +33,8 @@ while True:
         print "Thinking..."
         #move = games.minimax_decision(state, game)
         #move = games.alphabeta_full_search(state, game)
-        move = games.alphabeta_search(state, game, eval_fn=heuristicas.h0)
+
+        move = games.alphabeta_search(state, game,d=1, eval_fn=heuristica)
 
         state = game.make_move(move, state)
         player = 'O'
