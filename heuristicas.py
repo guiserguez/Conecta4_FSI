@@ -2,9 +2,19 @@
 import random
 import utils
 
+def memoize(f):
+    memo = {}
+    def helper(state):
+        tupla = tuple(state.board.items())
+        if tupla not in memo:
+            memo[tupla] = f(state)
+        return memo[tupla]
+    return helper
+
 def h0(state):
     return random.randint(-1000, 1000)
 
+@memoize
 def h1(state):
     if state.utility != 0:
         return utils.infinity*state.utility
@@ -25,8 +35,6 @@ def h1(state):
         n -= cuenta_fichas(tablero, move, 'O', (1,1))
     return n
 
-
-
 def cuenta_fichas(board, move, player, (delta_x, delta_y)):
     "Return true if there is a line through move on board for player."
     if player == 'X':
@@ -37,6 +45,7 @@ def cuenta_fichas(board, move, player, (delta_x, delta_y)):
     x, y = move
     puntuacion = 0
     fichas = 0
+
     while (board.get((x, y)) == player) or (board.get((x, y)) != contrario):
         if x > 7 or x < 0 or y > 6 or y < 0:
             break

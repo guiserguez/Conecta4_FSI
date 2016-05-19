@@ -1,19 +1,36 @@
+# coding=utf-8
 import games
 import heuristicas
 
-#game = games.TicTacToe(h=3,v=3,k=3)
-game = games.ConnectFour()
+print("Introduzca el nivel de dificultad: ")
+print("Nivel Fácil: 1")
+print("Nivel Medio: 2")
+print("Nivel Difícil: 3")
+valor = int(input("Nivel deseado:  "))
+if valor == 1:
+    nivel = 1
+elif valor == 2:
+    nivel = 2
+elif valor == 3:
+    nivel = 4
+else:
+    nivel = 2
+    print("Número incorrecto: se ha establecido el nivel intermedio")
 
+print("¿Quién empezará a jugar?")
+jugador = raw_input("¿La máquina (X) o usted (O)?: ")
+player = jugador
+if jugador != 'X' and jugador != 'O':
+    print("El texto introducido no coincide con ninguna opción. "
+          "Empezará a jugar la máquina")
+    player = 'X'
+
+game = games.ConnectFour(jugador=player)
 state = game.initial
-
-
-player = 'X'
 
 while True:
     print "Jugador a mover:", game.to_move(state)
     game.display(state)
-
-    heuristica = heuristicas.h1
 
     # Maquina = X, jugador = una O
 
@@ -31,10 +48,7 @@ while True:
         player = 'X'
     else:
         print "Thinking..."
-        #move = games.minimax_decision(state, game)
-        #move = games.alphabeta_full_search(state, game)
-
-        move = games.alphabeta_search(state, game,d=1, eval_fn=heuristica)
+        move = games.alphabeta_search(state, game,d=nivel ,eval_fn=heuristicas.h1)
 
         state = game.make_move(move, state)
         player = 'O'
